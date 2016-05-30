@@ -6,6 +6,7 @@
 int min;
 int max;
 int volume;
+int scale;
 
 int max_int(int a, int b) {
   if (a > b) {
@@ -16,7 +17,7 @@ int max_int(int a, int b) {
 }
 
 double readWeight() {
-  return adc_volts(3);
+  return adc_volts(3) * scale;
 }
 
 int readVolume() {
@@ -51,12 +52,13 @@ void sendData() {
 }
 
 void init() {
-  printf("%s\n", "Please enter the containers volume, in mL?");
-  scan("%d", volume);
-  printf("%s\n", "Place empty container on the weight, and press any key.");
-  scan("");
-  printf("%s\n", "Fill the container %d, and press any key.", volume);
-  scan("");
+  printf("%s\n", "Please enter the containers volume in mL?");
+  scan("%d", &volume);
+  printf("%s\n", "Place the empty container on the weight, and press any key.");
+  scan("", &min);
+  printf("%s\n", "Fill the container to %dmL, and press any key.", volume);
+  scan("", &max);
+  scale = (volume-min)/max
 }
 
 int main() {
