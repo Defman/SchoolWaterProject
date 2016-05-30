@@ -31,7 +31,7 @@ double readWeight() {
   //   pause(100);
   // }
   double last = adc_volts(3);
-  return last * scale;
+  return last * scale - min;
 }
 
 int readVolume() {
@@ -79,9 +79,9 @@ void init() {
 }
 
 int main() {
+  adc_init(21, 20, 19, 18);
   init();
   printf("%s\n", "I'm the main function =)");
-  adc_init(21, 20, 19, 18);
   int id = 0;
   while (1) {
     printf("Reading %i: %f\n", id, readWeight());
