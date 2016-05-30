@@ -17,19 +17,20 @@ int max_int(int a, int b) {
 }
 
 double readWeight() {
-  int reads = 0;
+  // int reads = 0;
+  // int last = adc_volts(3);
+  // while (reads < 10) {
+  //   int read = adc_volts(3);
+  //   if (read > last * 0.95 && read < last * 1.05) {
+  //     last = (read+last)/2;
+  //     reads = reads + 1;
+  //   } else {
+  //     last = read;
+  //     reads = 0;
+  //   }
+  //   pause(100);
+  // }
   int last = adc_volts(3);
-  while (reads < 10) {
-    int read = adc_volts(3);
-    if (read > last * 0.95 && read < last * 1.05) {
-      last = (read+last)/2;
-      reads = reads + 1;
-    } else {
-      last = read;
-      reads = 0;
-    }
-    pause(100);
-  }
   return last * scale;
 }
 
@@ -39,7 +40,7 @@ int readVolume() {
   int reads = 0;
   while (reads < 10) {
     int read = readWeight;
-    if (read > last * 0.9 && read < last * 1.1 ) {s
+    if (read > last * 0.9 && read < last * 1.1 ) {
       last = (last + read) / 2;
       reads = reads + 1;
     } else {
