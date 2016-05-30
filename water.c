@@ -15,7 +15,7 @@ int max_int(int a, int b) {
   }
 }
 
-int readWeight() {
+double readWeight() {
   return adc_volts(3) * voltToGram;
 }
 
