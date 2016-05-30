@@ -8,7 +8,7 @@ double max;
 int volume;
 double scale = 1;
 
-int max_int(int a, int b) {
+double max_double(double a, double b) {
   if (a > b) {
     return a;
   } else {
@@ -17,42 +17,24 @@ int max_int(int a, int b) {
 }
 
 double readInput() {
-  return adc_volts(3);
+  double last = adc_volts(3);
+  int reads = 0;
+  while (reads < 10) {
+    double read = adc_volts(3);
+    if (read > last * 0.95 && read < last * 1.05) {
+      last = (read + last) / 2
+      reads = reads + 1;
+    } else {
+      last = read;
+      reads = 0;
+    }
+    pause(50);
+  }
 }
 
 double readWeight() {
-  // int reads = 0;
-  // double last = adc_volts(3);
-  // while (reads < 10) {
-  //   int read = adc_volts(3);
-  //   if (read > last * 0.95 && read < last * 1.05) {
-  //     last = (read+last)/2;
-  //     reads = reads + 1;
-  //   } else {
-  //     last = read;
-  //     reads = 0;
-  //   }
-  //   pause(100);
-  // }
-  double last = adc_volts(3);
-  return last * scale + min;
-}
-
-int readVolume() {
-  printf("%s\n", "Begin: Reading volume.");
-  int last = readWeight();
-  int reads = 0;
-  while (reads < 10) {
-    int read = readWeight;
-    if (read > last * 0.9 && read < last * 1.1 ) {
-      last = (last + read) / 2;
-      reads = reads + 1;
-    } else {
-      reads = 0;
-    }
-  }
-  printf("%s\n", "Done: Reading volume.");
-  return max_int(last - min, 0);
+  double last = readInput();
+  return max(last * scale + min, 0);
 }
 
 void writeData() {
@@ -76,14 +58,10 @@ void init() {
   min = readInput();
   printf("Fill the container to %dmL, place it on the weight, and press any key.\n", volume);
   scan("");
-  printf("min: %f\n", min);
-  printf("max: %f\n", max);
-
   max = readInput();
+
   scale = max/(max-min);
   min = -scale*min;
-  printf("a: %f\n", scale);
-  printf("b: %f\n", min);
 }
 
 int main() {
@@ -92,8 +70,7 @@ int main() {
   printf("%s\n", "I'm the main function =)");
   int id = 0;
   while (1) {
-    printf("Reading %i: %f\n", id, readWeight());
-    printf("Reading %i: %f\n", id, readInput());
+    printf("Reading %i: %f\n", id, readWeight());s
     id = id + 1;
     pause(1000);
   }
