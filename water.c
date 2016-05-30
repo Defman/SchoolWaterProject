@@ -7,7 +7,7 @@ const min;
 const max;
 const voltToGram = 1.0;
 
-int max(int a, int b) {
+int max_int(int a, int b) {
   if (a > b) {
     return a;
   } else {
@@ -34,7 +34,7 @@ int readVolume() {
     }
   }
   printf("%s\n", "Done: Reading volume.");
-  return max(last - min, 0);
+  return max_int(last - min, 0);
 }
 
 void writeData() {
@@ -57,6 +57,6 @@ int main() {
   while (1) {
     printf("Reading %i: %f\n", id, readWeight());
     int id = id + 1;
-    pause(100);
+    pause(1000);
   }
 }
