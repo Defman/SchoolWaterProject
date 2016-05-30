@@ -3,9 +3,9 @@
 #include "adcDCpropab.h"
 #include "math.h"
 
-const min;
-const max;
-const voltToGram = 1.0;
+int min;
+int max;
+int max_volume;
 
 int max_int(int a, int b) {
   if (a > b) {
@@ -16,7 +16,7 @@ int max_int(int a, int b) {
 }
 
 double readWeight() {
-  return adc_volts(3) * voltToGram;
+  return adc_volts(3);
 }
 
 int readVolume() {
@@ -50,13 +50,20 @@ void sendData() {
   printf("%s\n", "I send data from the propeller to the app via bluetooth =)");
 }
 
+void init() {
+  printf("%s\n", "Test");
+  scan();
+  printf("%s\n", "Test2");
+}
+
 int main() {
+  init();
   printf("%s\n", "I'm the main function =)");
   adc_init(21, 20, 19, 18);
   int id = 0;
   while (1) {
     printf("Reading %i: %f\n", id, readWeight());
-    int id = id + 1;
+    id = id + 1;
     pause(1000);
   }
 }
