@@ -6,7 +6,7 @@
 double min;
 double max;
 int volume;
-double scale;
+double scale = 1;
 
 int max_int(int a, int b) {
   if (a > b) {
@@ -22,7 +22,7 @@ double readWeight() {
   while (reads < 10) {
     int read = adc_volts(3);
     if (read > last * 0.95 && read < last * 1.05) {
-      last = (read+last)/2
+      last = (read+last)/2;
       reads = reads + 1;
     } else {
       last = read;
@@ -39,8 +39,7 @@ int readVolume() {
   int reads = 0;
   while (reads < 10) {
     int read = readWeight;
-    if (read > last * 0.9 && read < last * 1.1 ) {
-
+    if (read > last * 0.9 && read < last * 1.1 ) {s
       last = (last + read) / 2;
       reads = reads + 1;
     } else {
