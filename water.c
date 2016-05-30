@@ -31,7 +31,7 @@ double readWeight() {
   //   pause(100);
   // }
   double last = adc_volts(3);
-  return last * scale - min;
+  return last * scale + min;
 }
 
 int readVolume() {
@@ -75,7 +75,8 @@ void init() {
   max = readWeight();
   scale = max/(max-min);
   min = -scale*min;
-  printf("The scale constant is: %d\n", scale);
+  printf("The scale constant is: %f\n", scale);
+  printf("The scale constant is: %f\n", min);
 }
 
 int main() {
@@ -85,6 +86,7 @@ int main() {
   int id = 0;
   while (1) {
     printf("Reading %i: %f\n", id, readWeight());
+    printf("Reading %i: %f\n", id, adc_volts(3));
     id = id + 1;
     pause(1000);
   }
