@@ -72,11 +72,14 @@ void init() {
   min = readWeight();
   printf("Fill the container to %dmL, place it on the weight, and press any key.\n", volume);
   scan("");
+  printf("min: %f\n", min);
+  printf("max: %f\n", max);
+
   max = readWeight();
   scale = max/(max-min);
   min = -scale*min;
-  printf("The scale constant is: %f\n", scale);
-  printf("The scale constant is: %f\n", min);
+  printf("a: %f\n", scale);
+  printf("b: %f\n", min);
 }
 
 int main() {
