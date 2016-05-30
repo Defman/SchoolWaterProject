@@ -30,7 +30,7 @@ double readWeight() {
   //   }
   //   pause(100);
   // }
-  int last = adc_volts(3);
+  double last = adc_volts(3);
   return last * scale;
 }
 
