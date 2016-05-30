@@ -5,7 +5,7 @@
 
 const min;
 const max;
-const voltToGram = 1;
+const voltToGram = 1.0;
 
 int max(int a, int b) {
   if (a > b) {
@@ -53,8 +53,10 @@ void sendData() {
 int main() {
   printf("%s\n", "I'm the main function =)");
   adc_init(21, 20, 19, 18);
+  int id = 0;
   while (1) {
-    printf("Read weight: %s\n", readWeight());
+    printf("Reading %i: %f\n", id, readWeight());
+    int id = id + 1;
     pause(100);
   }
 }
