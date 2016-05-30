@@ -1,6 +1,7 @@
 #include "simpletools.h"
 #include "fdserial.h"
 #include "adcDCpropab.h"
+#include "math.h"
 
 const min;
 const max;
@@ -48,12 +49,4 @@ int readData() {
 
 bool sendData(char[] data) {
   printf("%s\n", "I send data from the propeller to the app via bluetooth =)");
-}
-
-int max(int a, int b) {
-  if (a > b) {
-    return a;
-  } else {
-    return b;
-  }
 }
