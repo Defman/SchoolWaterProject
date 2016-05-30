@@ -16,6 +16,10 @@ int max_int(int a, int b) {
   }
 }
 
+double readInput() {
+  return adc_volts(3);
+}
+
 double readWeight() {
   // int reads = 0;
   // double last = adc_volts(3);
@@ -69,13 +73,13 @@ void init() {
   scan("%d", &volume);
   printf("%s\n", "Place the empty container on the weight, and press any key.");
   scan("");
-  min = readWeight();
+  min = readInput();
   printf("Fill the container to %dmL, place it on the weight, and press any key.\n", volume);
   scan("");
   printf("min: %f\n", min);
   printf("max: %f\n", max);
 
-  max = readWeight();
+  max = readInput();
   scale = max/(max-min);
   min = -scale*min;
   printf("a: %f\n", scale);
@@ -89,7 +93,7 @@ int main() {
   int id = 0;
   while (1) {
     printf("Reading %i: %f\n", id, readWeight());
-    printf("Reading %i: %f\n", id, adc_volts(3));
+    printf("Reading %i: %f\n", id, readInput());
     id = id + 1;
     pause(1000);
   }
