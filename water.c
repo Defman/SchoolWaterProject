@@ -30,11 +30,12 @@ double readInput() {
     }
     pause(50);
   }
+  return last;
 }
 
 double readWeight() {
   double last = readInput();
-  return max(last * scale + min, 0);
+  return max_double(last * scale + min, 0);
 }
 
 void writeData() {
@@ -60,7 +61,7 @@ void init() {
   scan("");
   max = readInput();
 
-  scale = max/(max-min);
+  scale = volume/(max-min);
   min = -scale*min;
 }
 
@@ -70,7 +71,7 @@ int main() {
   printf("%s\n", "I'm the main function =)");
   int id = 0;
   while (1) {
-    printf("Reading %i: %f\n", id, readWeight());s
+    printf("Reading %i: %f\n", id, readWeight());
     id = id + 1;
     pause(1000);
   }
