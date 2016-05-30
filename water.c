@@ -5,7 +5,7 @@
 
 int min;
 int max;
-int max_volume;
+int volume;
 
 int max_int(int a, int b) {
   if (a > b) {
@@ -51,9 +51,12 @@ void sendData() {
 }
 
 void init() {
-  printf("%s\n", "Test");
-  scan();
-  printf("%s\n", "Test2");
+  printf("%s\n", "Please enter the containers volume, in mL?");
+  scan("%d", volume);
+  printf("%s\n", "Place empty container on the weight, and press any key.");
+  scan("");
+  printf("%s\n", "Fill the container %d, and press any key.", volume);
+  scan("");
 }
 
 int main() {
