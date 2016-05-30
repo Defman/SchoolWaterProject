@@ -7,13 +7,16 @@ const min;
 const max;
 const voltToGram = 1;
 
-int main() {
-  printf("%s\n", "I'm the main function =)");
-  min = readVolume();
-  max = readVolume();
-  while (true) {
-    printf("Read weight: %s\n", readWeight());
+int max(int a, int b) {
+  if (a > b) {
+    return a;
+  } else {
+    return b;
   }
+}
+
+int readWeight() {
+  return adc_volts(3) * voltToGram;
 }
 
 int readVolume() {
@@ -34,19 +37,24 @@ int readVolume() {
   return max(last - min, 0);
 }
 
-int readWeight() {
-  return adc_volts(3) * voltToGram;
-}
-
-bool writeData(unsigned int volume, unsigned long timestamp) {
+void writeData() {
   printf("%s\n", "I write data to the SD card =)");
 }
 
 int readData() {
   printf("%s\n", "I read data from the SD card =)");
-  return {0x00, 0x01, 0x02};
+  return 0;
 }
 
-bool sendData(char[] data) {
+void sendData() {
   printf("%s\n", "I send data from the propeller to the app via bluetooth =)");
+}
+
+int main() {
+  printf("%s\n", "I'm the main function =)");
+  adc_init(21, 20, 19, 18);
+  while (1) {
+    printf("Read weight: %s\n", readWeight());
+    pause(100);
+  }
 }
