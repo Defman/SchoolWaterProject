@@ -68,7 +68,7 @@ void init() {
   scan("%d", &volume);
   printf("%s\n", "Place the empty container on the weight, and press any key.");
   scan("", &min);
-  printf("Fill the container to mL, and press any key.\n", volume);
+  printf("Fill the container to %dmL, and press any key.\n", volume);
   scan("", &max);
   scale = (volume-min)/max
   printf("The scale constant is: %d\n", scale);
