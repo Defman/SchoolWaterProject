@@ -18,7 +18,7 @@ int max_int(int a, int b) {
 
 double readWeight() {
   // int reads = 0;
-  // int last = adc_volts(3);
+  // double last = adc_volts(3);
   // while (reads < 10) {
   //   int read = adc_volts(3);
   //   if (read > last * 0.95 && read < last * 1.05) {
@@ -68,9 +68,11 @@ void init() {
   printf("%s\n", "Please enter the containers volume in mL?");
   scan("%d", &volume);
   printf("%s\n", "Place the empty container on the weight, and press any key.");
-  scan("", &min);
+  scan("");
+  min = readWeight();
   printf("Fill the container to %dmL, place it on the weight, and press any key.\n", volume);
-  scan("", &max);
+  scan("");
+  max = readWeight();
   scale = (volume-min)/max;
   printf("The scale constant is: %d\n", scale);
 }
