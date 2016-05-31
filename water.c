@@ -91,7 +91,19 @@ void init() {
   max = volume * 1.1;
 }
 
+fdserial *xbee;
+
+int broadcaster() {
+  xbee = fdserial_open(9, 8, 0, 9600);
+  int count = 0;
+  while(1) {
+    writeChar(xbee, count);
+    count = count + 1;
+  }
+}
+
 int main() {
+  /*
   printf("This is automatic water bottle mesurer made by Abdul, Tabita, and Jacob.\n");
   adc_init(21, 20, 19, 18);
   init();
@@ -101,4 +113,7 @@ int main() {
     id = id + 1;
     pause(1000);
   }
+  */
+
+  broadcaster();
 }
