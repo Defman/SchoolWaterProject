@@ -2,10 +2,10 @@
 #include "fdserial.h"
 #include "adcDCpropab.h"
 
-static double min;
-static double max;
-static int volume;
-static double scale;
+static volatile double min;
+static volatile double max;
+static volatile int volume;
+static volatile double scale;
 
 double max_double(double a, double b) {
   if (a > b) {
@@ -142,7 +142,7 @@ void bluetoothWorker() {
 
     long timestamps_cp[256];
     memcpy(timestamps_cp, timestamps, 256*sizeof(long));
-    memset(timestampts, 0, 256*sizeof(long));
+    memset(timestamps, 0, 256*sizeof(long));
 
     for(index_cp; index_cp > 0; index_cp--) {
         writeFloat(bluetooth, mesurements_cp[index_cp]);
