@@ -2,10 +2,10 @@
 #include "fdserial.h"
 #include "adcDCpropab.h"
 
-double min;
-double max;
-int volume;
-double scale;
+static double min;
+static double max;
+static int volume;
+static double scale;
 
 double max_double(double a, double b) {
   if (a > b) {
@@ -49,6 +49,7 @@ void sendData() {
   printf("%s\n", "I send data from the propeller to the app via bluetooth =)");
 }
 
+/*
 void writeConfig() {
   FILE* fp = fopen("config", "w");
   fwrite(min, sizeof(min), 1, fp);
@@ -73,6 +74,7 @@ void writeData(long timestamp, int volume) {
   fwrite(volume, sizeof(volume), 1, fp);
   fclose(fp);
 }
+*/
 
 void init() {
   printf("Please enter the bottle's volume in mL.\n");
@@ -91,29 +93,71 @@ void init() {
   max = volume * 1.1;
 }
 
-fdserial *xbee;
+static long W_STACK[200];
+static long B_STACK[200];
+static long T_STACK[200];
 
-int broadcaster() {
-  xbee = fdserial_open(9, 8, 0, 9600);
-  int count = 0;
+static volatile double mesurements[256];
+static volatile long timestamps[256];
+static volatile char index = 0;
+
+void waterWorker(void *arg) {
+  double lastKnown = readWeight();
+
   while(1) {
-    writeChar(xbee, count);
-    count = count + 1;
+    double weight = readWeight();
+    if (weight > lastKnown * 0.95 && weight < lastKnown * 1.05) {
+      mesurements[index] = weight - lastKnown;
+      timestamps[index] = cur_time;
+      index++;
+    }
+    pause(1000);
   }
 }
 
+void bluetoothWorker() {
+
+  fdserial *bluetooth = fdserial_open(9, 8, 0, 115200);
+
+  int index_cp = index;
+  index = 0;
+
+  double mesurements_cp[256] = mesurements;
+  mesurements = NULL;
+  long timestamps_cp[256] = timestampts;
+  timestampts = NULL;
+
+  while(1) {
+    for(index_cp; index_cp > 0; index_cp--) {
+        writeFloat(mesurements_cp[index_cp]);
+        writeFloat(timestampts_cp[index_cp]);
+    }
+    pause(1000);
+  }
+}
+
+static volatile long cur_time;
+
+void timerworker() {
+  long delay = 80000;
+  long next_cnt = CNT + delay;
+  while(1) {
+      cur_time++;
+      next_cnt = waitcnt2(next_cnt, delay);
+  }
+}
+
+
 int main() {
-  /*
   printf("This is automatic water bottle mesurer made by Abdul, Tabita, and Jacob.\n");
   adc_init(21, 20, 19, 18);
   init();
-  int id = 0;
-  while (1) {
-    printf("Reading %i: %f\n", id, readWeight());
-    id = id + 1;
-    pause(1000);
-  }
-  */
 
-  broadcaster();
+  cogstart(waterWorker, NULL, W_STACK, sizeof(W_STACK));
+  cogstart(bluetoothWorker, NULL, B_STACK, sizeof(B_STACK));
+  cogstart(timerworker, NULL, T_STACK, sizeof(T_STACK));
+
+  while(1) {
+    ;
+  }
 }
