@@ -130,19 +130,19 @@ void bluetoothWorker() {
 
   fdserial *bluetooth = fdserial_open(9, 8, 0, 115200);
 
-  int index_cp;
-  memcpy(index, index_cp, sizeof(char));
-  index = 0;
-
-  double mesurements_cp[256];
-  memcpy(mesurements, mesurements_cp, 256*sizeof(double));
-  mesurements = NULL;
-
-  long timestamps_cp[256];
-  memcpy(timestampts, timestamps_cp, 256*sizeof(long));
-  timestampts = NULL;
-
   while(1) {
+    int index_cp;
+    memcpy(index, index_cp, sizeof(char));
+    index = 0;
+
+    double mesurements_cp[256];
+    memcpy(mesurements, mesurements_cp, 256*sizeof(double));
+    memset(mesurements, NULL, 256*sizeof(double));
+
+    long timestamps_cp[256];
+    memcpy(timestampts, timestamps_cp, 256*sizeof(long));
+    memset(timestampts, NULL, 256*sizeof(long));
+    
     for(index_cp; index_cp > 0; index_cp--) {
         writeFloat(mesurements_cp[index_cp]);
         writeFloat(timestampts_cp[index_cp]);
