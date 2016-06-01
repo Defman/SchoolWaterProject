@@ -137,11 +137,11 @@ void bluetoothWorker() {
 
     double mesurements_cp[256];
     memcpy(mesurements_cp, mesurements, 256*sizeof(double));
-    memset(mesurements, NULL, 256*sizeof(double));
+    memset(mesurements, 0, 256*sizeof(double));
 
     long timestamps_cp[256];
-    memcpy(timestampts_cp, timestamps, 256*sizeof(long));
-    memset(timestampts, NULL, 256*sizeof(long));
+    memcpy(timestamps_cp, timestamps, 256*sizeof(long));
+    memset(timestampts, 0, 256*sizeof(long));
 
     for(index_cp; index_cp > 0; index_cp--) {
         writeFloat(bluetooth, mesurements_cp[index_cp]);
