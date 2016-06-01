@@ -94,12 +94,23 @@ void init() {
 }
 
 static long W_STACK[200];
-static long B_STACK[200];
+static long B_STACK[700];
 static long T_STACK[200];
 
 static volatile double mesurements[256];
 static volatile long timestamps[256];
 static volatile char index = 0;
+
+static volatile long cur_time;
+
+void timerworker() {
+  long delay = 80000;
+  long next_cnt = CNT + delay;
+  while(1) {
+      cur_time++;
+      next_cnt = waitcnt2(next_cnt, delay);
+  }
+}
 
 void waterWorker(void *arg) {
   double lastKnown = readWeight();
@@ -119,12 +130,16 @@ void bluetoothWorker() {
 
   fdserial *bluetooth = fdserial_open(9, 8, 0, 115200);
 
-  int index_cp = index;
+  int index_cp;
+  memcpy(index, index_cp, sizeof(char));
   index = 0;
 
-  double mesurements_cp[256] = mesurements;
+  double mesurements_cp[256];
+  memcpy(mesurements, mesurements_cp, 256*sizeof(double));
   mesurements = NULL;
-  long timestamps_cp[256] = timestampts;
+
+  long timestamps_cp[256];
+  memcpy(timestampts, timestamps_cp, 256*sizeof(long));
   timestampts = NULL;
 
   while(1) {
@@ -135,18 +150,6 @@ void bluetoothWorker() {
     pause(1000);
   }
 }
-
-static volatile long cur_time;
-
-void timerworker() {
-  long delay = 80000;
-  long next_cnt = CNT + delay;
-  while(1) {
-      cur_time++;
-      next_cnt = waitcnt2(next_cnt, delay);
-  }
-}
-
 
 int main() {
   printf("This is automatic water bottle mesurer made by Abdul, Tabita, and Jacob.\n");
