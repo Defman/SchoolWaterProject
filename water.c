@@ -121,6 +121,7 @@ void waterWorker(void *arg) {
       mesurements[index] = weight - lastKnown;
       timestamps[index] = cur_time;
       index++;
+      lastKnow = weight;
     }
     pause(1000);
   }
@@ -145,7 +146,6 @@ void bluetoothWorker() {
 
     for(index_cp; index_cp > 0; index_cp--) {
         writeFloat(bluetooth, mesurements_cp[index_cp]);
-        writeFloat(bluetooth, timestampts_cp[index_cp]);
     }
     pause(1000);
   }
