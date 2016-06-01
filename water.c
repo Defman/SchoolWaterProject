@@ -37,16 +37,16 @@ double readWeight() {
 }
 
 void writeData() {
-  printf("%s\n", "I write data to the SD card =)");
+  print("%s\n", "I write data to the SD card =)");
 }
 
 int readData() {
-  printf("%s\n", "I read data from the SD card =)");
+  print("%s\n", "I read data from the SD card =)");
   return 0;
 }
 
 void sendData() {
-  printf("%s\n", "I send data from the propeller to the app via bluetooth =)");
+  print("%s\n", "I send data from the propeller to the app via bluetooth =)");
 }
 
 /*
@@ -77,14 +77,14 @@ void writeData(long timestamp, int volume) {
 */
 
 void init() {
-  printf("Please enter the bottle's volume in mL.\n");
+  print("Please enter the bottle's volume in mL.\n");
   scan("%d", &volume);
 
-  printf("Place the empty bottle on the weight, and press any key.\n");
+  print("Place the empty bottle on the weight, and press any key.\n");
   scan("");
   min = readInput();
 
-  printf("Fill the bottle to %imL, place it on the weight, and press any key.\n", volume);
+  print("Fill the bottle to %imL, place it on the weight, and press any key.\n", volume);
   scan("");
   max = readInput();
 
@@ -121,7 +121,7 @@ void waterWorker(void *arg) {
       mesurements[index] = weight - lastKnown;
       timestamps[index] = cur_time;
       index++;
-      lastKnow = weight;
+      lastKnown = weight;
     }
     pause(1000);
   }
@@ -152,7 +152,7 @@ void bluetoothWorker() {
 }
 
 int main() {
-  printf("This is automatic water bottle mesurer made by Abdul, Tabita, and Jacob.\n");
+  print("This is automatic water bottle mesurer made by Abdul, Tabita, and Jacob.\n");
   adc_init(21, 20, 19, 18);
   init();
 
