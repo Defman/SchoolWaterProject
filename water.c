@@ -122,6 +122,8 @@ void waterWorker(void *arg) {
       timestamps[index] = cur_time;
       index++;
       lastKnown = weight;
+    } else {
+      index++;
     }
     pause(1000);
   }
@@ -161,6 +163,7 @@ int main() {
   cogstart(timerworker, NULL, T_STACK, sizeof(T_STACK));
 
   while(1) {
-    ;
+    print("%i", index);
+    pause(1000);
   }
 }
